@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fc25d2a1-aac9-4d2e-a8fb-95e88de0649e" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1oRI9GVtRaNg2I9viSmLHfw4xu7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Facets" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Code\Java\TI_first\src\main\resources" />
+      <recent name="D:\Code\Java\TI_first\src\main\java\by\bsuir\ti\first\logic" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Code\Java\TI_first\src\main\resources\by\bsuir\ti\first\starter" />
+      <recent name="D:\Code\Java\TI_first\src\main\resources\by\bsuir\ti\first" />
+      <recent name="D:\Code\Java\TI_first\src\main\resources\by\bsuir\ti\first\" />
+      <recent name="D:\Code\Java\TI_first\src\main\resources" />
+      <recent name="D:\Code\Java\TI_first" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="by.bsuir.ti.first.starter.App" />
+      <module name="TI_first" />
+      <option name="VM_PARAMETERS" value="--module-path C:\JavaFX\javafx-sdk-11.0.2\lib --add-modules javafx.controls,javafx.fxml" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc25d2a1-aac9-4d2e-a8fb-95e88de0649e" name="Default Changelist" comment="" />
+      <created>1613242826287</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1613242826287</updated>
+      <workItem from="1613242829334" duration="10409000" />
+      <workItem from="1613322465107" duration="3549000" />
+      <workItem from="1613332389502" duration="4105000" />
+      <workItem from="1613601996636" duration="178000" />
+      <workItem from="1613664792386" duration="80000" />
+      <workItem from="1613665500076" duration="163000" />
+      <workItem from="1613665795110" duration="334000" />
+      <workItem from="1614108455153" duration="3346000" />
+      <workItem from="1614152988507" duration="2674000" />
+      <workItem from="1614164639559" duration="2839000" />
+      <workItem from="1614174769779" duration="8563000" />
+      <workItem from="1614199563289" duration="874000" />
+      <workItem from="1614204591381" duration="2702000" />
+      <workItem from="1614235086541" duration="139000" />
+      <workItem from="1614237092134" duration="617000" />
+      <workItem from="1614241057745" duration="1458000" />
+      <workItem from="1614246922320" duration="25416000" />
+      <workItem from="1614281648769" duration="4326000" />
+      <workItem from="1614323441276" duration="3535000" />
+      <workItem from="1614337636561" duration="2203000" />
+      <workItem from="1614604551809" duration="128000" />
+      <workItem from="1614697074909" duration="218000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/by/bsuir/ti/first/cipher/impl/Vigener.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
