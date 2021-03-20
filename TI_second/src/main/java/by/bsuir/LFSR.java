@@ -1,5 +1,9 @@
 package by.bsuir;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class LFSR implements Cipher {
     private static final int twentyFifthPositionMask = 0b0000_0001_0000_0000_0000_0000_0000_0000;
     private static final int thirdPositionMask = 0b0000_0000_0000_0000_0000_0000_0000_0100;
@@ -52,11 +56,11 @@ public class LFSR implements Cipher {
     }
 
     @Override
-    public String decrypt() {
-        byte[] decryptBytes = new byte[message.length];
-        for (int i = 0; i < message.length; i++) {
-            decryptBytes[i] = manipulateByte(message[i]);
+    public List<Byte> decrypt() {
+        List<Byte> list = new ArrayList<>();
+        for (byte b : message) {
+            list.add(manipulateByte(b));
         }
-        return new String(decryptBytes);
+        return list;
     }
 }

@@ -1,7 +1,9 @@
 package by.bsuir;
 
+import java.util.List;
+
 public interface Cipher {
     String encrypt();
 
-    String decrypt();
+    List<Byte> decrypt();
 }

@@ -35,9 +35,6 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        byte po = -13;
-        short op = (short) (po & 0xFF);
-        System.out.println(op << 2);
         launch();
     }
 
