@@ -1,16 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsuir.PrimaryController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsuir.PrimaryController">
    <children>
-      <Label text="Primary View" />
-      <Button fx:id="primaryButton" text="Switch to Secondary View" onAction="#switchToSecondary"/>
+      <Label prefHeight="65.0" prefWidth="378.0" text="Потоковое шифрование">
+         <font>
+            <Font name="Book Antiqua" size="33.0" />
+         </font>
+      </Label>
+      <Separator prefWidth="200.0" />
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="320.0" spacing="5.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="39.0" text="Key">
+               <font>
+                  <Font name="Book Antiqua" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="keyField" alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="250.0" promptText="Enter the starting value" />
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" />
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="320.0" spacing="5.0">
+         <children>
+            <TextField fx:id="pathField" editable="false" prefHeight="26.0" prefWidth="235.0" promptText="Choose file" />
+            <Button fx:id="selectButton" mnemonicParsing="false" text="Select">
+               <font>
+                  <Font name="Book Antiqua" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" />
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+         <children>
+            <Button fx:id="encryptButton" mnemonicParsing="false" text="Encrypt">
+               <font>
+                  <Font name="Book Antiqua" size="19.0" />
+               </font>
+            </Button>
+            <Button fx:id="decryptButton" mnemonicParsing="false" text="Decrypt">
+               <font>
+                  <Font name="Book Antiqua" size="19.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
    </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
 </VBox>
