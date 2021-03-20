@@ -35,6 +35,9 @@ public class Util {
             while ((s = br.readLine()) != null){
                 list.add(s + "\n");
             }
+            String last = list.get(list.size() - 1);
+            last = last.substring(0, last.length() - 1);
+            list.set(list.size() - 1, last);
             br.close();
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -45,8 +48,6 @@ public class Util {
     public static void fileRebuilding(List<Byte> bytes, String name){
         File file = new File(name);
         try {
-            System.out.println(file.getAbsolutePath());
-            System.out.println(name);
             file.createNewFile();
             FileOutputStream fs = new FileOutputStream(file);
             for (Byte bytek: bytes){

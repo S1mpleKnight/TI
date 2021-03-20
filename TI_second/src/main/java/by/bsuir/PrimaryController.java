@@ -58,14 +58,6 @@ public class PrimaryController {
         });
     }
 
-    private List<Byte> lol(byte[] arr){
-        List<Byte> list = new ArrayList<>();
-        for (byte b: arr){
-            list.add(b);
-        }
-        return list;
-    }
-
     private void showAlert(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.showAndWait();
