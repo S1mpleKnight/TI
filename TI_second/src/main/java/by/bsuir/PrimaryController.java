@@ -36,38 +36,87 @@ public class PrimaryController {
     @FXML
     void initialize() {
         selectButton.setOnMouseClicked(e -> {
-            FileChooser chooser = new FileChooser();
-            chooser.setTitle("Choose file");
-            file = chooser.showOpenDialog(App.getPrimaryStage());
-            pathField.setText(file.getAbsolutePath());
+            takeFile();
+            if (file != null){
+                pathField.setText(file.getAbsolutePath());
+            }
         });
 
         encryptButton.setOnMouseClicked(e -> {
-            Cipher cipher = new LFSR(createKey(), Util.fileOpening(file));
+            if (file == null){
+                showAlert(false, "Choose file");
+                return;
+            }
+            int createdKey = createKey();
+            if (createdKey == -1){
+                showAlert(false, "Wrong key");
+                return;
+            }
+            Cipher cipher = new LFSR(createdKey, Util.fileOpening(file));
             byte[] bytes = cipher.encrypt();
             Util.writeEncryptedFile(bytes, file);
-            showAlert();
+            showAlert(true, "Encryption finished");
         });
 
         decryptButton.setOnMouseClicked(e -> {
+            if (file == null){
+                showAlert(false, "Choose file");
+                return;
+            }
+            int createdKey = createKey();
+            if (createdKey == -1){
+                showAlert(false, "Wrong key");
+                return;
+            }
             byte[] encrypted = Util.readEncryptedFile(file);
             Cipher cipher = new LFSR(createKey(), encrypted);
             byte[] bytes = cipher.decrypt();
             Util.fileRebuilding(bytes, file);
-            showAlert();
+            showAlert(true, "Decryption finished");
+
         });
     }
 
-    private void showAlert(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void takeFile() {
+        File oldFile = file;
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Choose file");
+        file = chooser.showOpenDialog(App.getPrimaryStage());
+        if (file == null){
+            file = oldFile;
+        }
+    }
+
+    private void showAlert(boolean state, String text){
+        Alert alert = new Alert(state ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+        alert.setTitle(state ? "Info" : "Error");
+        alert.setHeaderText(state ? "Information" : "Error occurred");
+        alert.setContentText(text);
         alert.showAndWait();
     }
 
-    private int createKey(){
-        String key = Arrays.stream(keyField.getText()
+    private int createKey() {
+        String key = Arrays.stream(keyField.getText().trim()
                 .split(""))
                 .filter(str -> (str.equals("0") || str.equals("1")))
                 .collect(Collectors.joining(""));
-        return Integer.parseInt(key);
+        if (key.length() == 0 || key.length() > 25) {
+            return -1;
+        } else {
+            return calculateKey(key);
+        }
+    }
+
+    private int calculateKey(String key){
+        int result = 0;
+        String[] split = key.split("");
+        for (int i = 0; i < split.length; i++) {
+            int temp = Integer.parseInt(split[i]);
+            result += temp;
+            if (i != split.length - 1) {
+                result <<= 1;
+            }
+        }
+        return result;
     }
 }

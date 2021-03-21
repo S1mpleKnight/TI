@@ -18,6 +18,8 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"));
         primaryStage = stage;
         stage.setScene(scene);
+        stage.setTitle("LFSR");
+        stage.setResizable(false);
         stage.show();
     }
 
