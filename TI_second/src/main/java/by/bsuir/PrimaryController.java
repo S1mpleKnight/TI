@@ -68,6 +68,7 @@ public class PrimaryController {
                 showAlert(false, "Wrong key");
                 return;
             }
+            showAlert(true, "Decryption started");
             byte[] encrypted = Util.readEncryptedFile(file);
             Cipher cipher = new LFSR(createKey(), encrypted);
             byte[] bytes = cipher.decrypt();
