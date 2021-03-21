@@ -1,17 +1,13 @@
 package by.bsuir;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class LFSR implements Cipher {
     private static final int twentyFifthPositionMask = 0b0000_0001_0000_0000_0000_0000_0000_0000;
     private static final int thirdPositionMask = 0b0000_0000_0000_0000_0000_0000_0000_0100;
     private static final long keyMask = 0b00000000_00000000_00000000_00000001_11111110_00000000_00000000_00000000L;
 
     private final byte[] message;
-    private int key;
     private final StringBuilder keyBuffer;
+    private int key;
 
     public LFSR(int key, byte[] message) {
         this.message = message;
@@ -20,12 +16,12 @@ public class LFSR implements Cipher {
     }
 
     @Override
-    public String encrypt() {
+    public byte[] encrypt() {
         byte[] encryptBytes = new byte[message.length];
         for (int i = 0; i < message.length; i++) {
             encryptBytes[i] = manipulateByte(message[i]);
         }
-        return new String(encryptBytes);
+        return encryptBytes;
     }
 
     private byte manipulateByte(byte sequence) {
@@ -56,11 +52,11 @@ public class LFSR implements Cipher {
     }
 
     @Override
-    public List<Byte> decrypt() {
-        List<Byte> list = new ArrayList<>();
-        for (byte b : message) {
-            list.add(manipulateByte(b));
+    public byte[] decrypt() {
+        byte[] decryptBytes = new byte[message.length];
+        for (int i = 0; i < message.length; i++) {
+            decryptBytes[i] = manipulateByte(message[i]);
         }
-        return list;
+        return decryptBytes;
     }
 }

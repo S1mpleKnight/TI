@@ -44,16 +44,16 @@ public class PrimaryController {
 
         encryptButton.setOnMouseClicked(e -> {
             Cipher cipher = new LFSR(createKey(), Util.fileOpening(file));
-            String encryptedText = cipher.encrypt();
-            Util.writeEncryptedFile(encryptedText, file.getAbsolutePath().trim());
+            byte[] bytes = cipher.encrypt();
+            Util.writeEncryptedFile(bytes, file);
             showAlert();
         });
 
         decryptButton.setOnMouseClicked(e -> {
-            List<String> list = Util.readEncryptedFile(file.getAbsolutePath());
-            Cipher cipher = new LFSR(createKey(), createText(list).getBytes(StandardCharsets.UTF_8));
-            List<Byte> decryptedBytes = cipher.decrypt();
-            Util.fileRebuilding(decryptedBytes, String.join("", list.get(0).split("\n")));
+            byte[] encrypted = Util.readEncryptedFile(file);
+            Cipher cipher = new LFSR(createKey(), encrypted);
+            byte[] bytes = cipher.decrypt();
+            Util.fileRebuilding(bytes, file);
             showAlert();
         });
     }
@@ -69,13 +69,5 @@ public class PrimaryController {
                 .filter(str -> (str.equals("0") || str.equals("1")))
                 .collect(Collectors.joining(""));
         return Integer.parseInt(key);
-    }
-
-    private String createText(List<String> list){
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < list.size(); i++){
-            sb.append(list.get(i));
-        }
-        return sb.toString();
     }
 }

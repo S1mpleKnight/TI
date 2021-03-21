@@ -1,71 +1,59 @@
 package by.bsuir;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Util {
-    public static void writeEncryptedFile(String str, String name){
-        File file = new File("./encr.txt");
+    public static void writeEncryptedFile(byte[] bytes, File file) {
+        File encryptedFile = new File(file.getAbsolutePath() + ".encrypted");
         try {
-            BufferedWriter bf = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8));
-            bf.write(name + "\n");
-            bf.write(str);
-            bf.flush();
-            bf.close();
+            DataOutputStream ds = new DataOutputStream(new FileOutputStream(encryptedFile));
+            ds.write(bytes);
+            ds.flush();
+            ds.close();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
-    public static List<String> readEncryptedFile(String str){
-        List<String> list = new ArrayList<>();
-        File file = new File(str);
+    public static byte[] readEncryptedFile(File file) {
+        byte[] bytes = new byte[0];
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8));
-            String s;
-            while ((s = br.readLine()) != null){
-                list.add(s + "\n");
-            }
-            String last = list.get(list.size() - 1);
-            last = last.substring(0, last.length() - 1);
-            list.set(list.size() - 1, last);
-            br.close();
+            DataInputStream ds = new DataInputStream(new FileInputStream(file));
+            bytes = ds.readAllBytes();
+            ds.close();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-        return list;
+        return bytes;
     }
 
-    public static void fileRebuilding(List<Byte> bytes, String name){
-        File file = new File(name);
+    public static void fileRebuilding(byte[] bytes, File file) {
+        String name = file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 10);
+        File decryptedFile = new File(name);
         try {
             file.createNewFile();
-            FileOutputStream fs = new FileOutputStream(file);
-            for (Byte bytek: bytes){
-                fs.write(bytek);
+            DataOutputStream ds = new DataOutputStream(new FileOutputStream(decryptedFile));
+            for (Byte bytek : bytes) {
+                ds.writeByte(bytek);
             }
-            fs.flush();
-            fs.close();
+            ds.flush();
+            ds.close();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
-    public static byte[] fileOpening(File file){
+    public static byte[] fileOpening(File file) {
         byte[] arr = new byte[0];
         try {
-            FileInputStream fs = new FileInputStream(file);
-            arr = fs.readAllBytes();
-            fs.close();
+            DataInputStream ds = new DataInputStream(new FileInputStream(file));
+            arr = ds.readAllBytes();
+            ds.close();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
