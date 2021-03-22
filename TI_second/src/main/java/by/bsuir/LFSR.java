@@ -1,7 +1,6 @@
 package by.bsuir;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class LFSR implements Cipher {
     public static final int BYTES_NUMBER = 30;
@@ -55,7 +54,7 @@ public class LFSR implements Cipher {
             temp += bit;
         }
         key = (int) temp;
-        return (byte) (0xFF & (temp & KEY_MASK >>> 26));
+        return (byte) (0xFF & ((temp & KEY_MASK) >>> 26));
     }
 
     private int calculateLastBit(long temp) {
@@ -99,18 +98,18 @@ public class LFSR implements Cipher {
     @Override
     public String showTextBytes() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < BYTES_NUMBER; i++){
+        for (int i = 0; i < BYTES_NUMBER; i++) {
             sb.append((binaryForm(textBitsList.get(i))));
             sb.append(" ");
         }
         return sb.toString();
     }
 
-    private String binaryForm(byte bytek){
+    private String binaryForm(byte bytek) {
         StringBuilder sb = new StringBuilder();
         byte check = 1;
-        for (int i = 0; i < 8; i++){
-            if ((check & bytek) == 0){
+        for (int i = 0; i < 8; i++) {
+            if ((check & bytek) == 0) {
                 sb.append("0");
             } else {
                 sb.append("1");
@@ -123,7 +122,7 @@ public class LFSR implements Cipher {
     @Override
     public String showEncryptedBytes() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < BYTES_NUMBER; i++){
+        for (int i = 0; i < BYTES_NUMBER; i++) {
             sb.append(binaryForm(encryptedBitsList.get(i)));
             sb.append(" ");
         }

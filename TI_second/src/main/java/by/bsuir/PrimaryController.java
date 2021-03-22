@@ -38,6 +38,11 @@ public class PrimaryController {
         return cipher;
     }
 
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(PrimaryController.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
+    }
+
     @FXML
     void initialize() {
         selectButton.setOnMouseClicked(e -> {
@@ -144,10 +149,5 @@ public class PrimaryController {
             }
         }
         return result;
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(PrimaryController.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
     }
 }
