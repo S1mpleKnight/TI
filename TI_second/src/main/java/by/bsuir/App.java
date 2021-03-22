@@ -13,16 +13,6 @@ public class App extends Application {
     private static Scene scene;
     private static Stage primaryStage;
 
-    @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"));
-        primaryStage = stage;
-        stage.setScene(scene);
-        stage.setTitle("LFSR");
-        stage.setResizable(false);
-        stage.show();
-    }
-
     public static Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -38,6 +28,16 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        scene = new Scene(loadFXML("primary"));
+        primaryStage = stage;
+        stage.setScene(scene);
+        stage.setTitle("LFSR");
+        stage.setResizable(false);
+        stage.show();
     }
 
 }

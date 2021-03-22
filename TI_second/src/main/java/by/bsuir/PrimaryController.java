@@ -1,21 +1,17 @@
 package by.bsuir;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class PrimaryController {
+    private static Cipher cipher;
     private File file;
 
     @FXML
@@ -33,44 +29,48 @@ public class PrimaryController {
     @FXML
     private Button decryptButton;
 
+    public static Cipher getCipher() {
+        return cipher;
+    }
+
     @FXML
     void initialize() {
         selectButton.setOnMouseClicked(e -> {
             takeFile();
-            if (file != null){
+            if (file != null) {
                 pathField.setText(file.getAbsolutePath());
             }
         });
 
         encryptButton.setOnMouseClicked(e -> {
-            if (file == null){
+            if (file == null) {
                 showAlert(false, "Choose file");
                 return;
             }
             int createdKey = createKey();
-            if (createdKey == -1){
+            if (createdKey == -1) {
                 showAlert(false, "Wrong key");
                 return;
             }
-            Cipher cipher = new LFSR(createdKey, Util.fileOpening(file));
+            cipher = new LFSR(createdKey, Util.fileOpening(file));
             byte[] bytes = cipher.encrypt();
             Util.writeEncryptedFile(bytes, file);
             showAlert(true, "Encryption finished");
         });
 
         decryptButton.setOnMouseClicked(e -> {
-            if (file == null){
+            if (file == null) {
                 showAlert(false, "Choose file");
                 return;
             }
             int createdKey = createKey();
-            if (createdKey == -1){
+            if (createdKey == -1) {
                 showAlert(false, "Wrong key");
                 return;
             }
             showAlert(true, "Decryption started");
             byte[] encrypted = Util.readEncryptedFile(file);
-            Cipher cipher = new LFSR(createKey(), encrypted);
+            cipher = new LFSR(createKey(), encrypted);
             byte[] bytes = cipher.decrypt();
             Util.fileRebuilding(bytes, file);
             showAlert(true, "Decryption finished");
@@ -83,12 +83,12 @@ public class PrimaryController {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Choose file");
         file = chooser.showOpenDialog(App.getPrimaryStage());
-        if (file == null){
+        if (file == null) {
             file = oldFile;
         }
     }
 
-    private void showAlert(boolean state, String text){
+    private void showAlert(boolean state, String text) {
         Alert alert = new Alert(state ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
         alert.setTitle(state ? "Info" : "Error");
         alert.setHeaderText(state ? "Information" : "Error occurred");
@@ -108,7 +108,7 @@ public class PrimaryController {
         }
     }
 
-    private int calculateKey(String key){
+    private int calculateKey(String key) {
         int result = 0;
         String[] split = key.split("");
         for (int i = 0; i < split.length; i++) {

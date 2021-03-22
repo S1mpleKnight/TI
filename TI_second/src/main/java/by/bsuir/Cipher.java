@@ -6,4 +6,8 @@ public interface Cipher {
     byte[] decrypt();
 
     String showKeyBytes();
+
+    String showTextBytes();
+
+    String showEncryptedBytes();
 }
