@@ -16,9 +16,12 @@ public class SecondaryController {
 
     @FXML
     void initialize() {
-        assert keyBitsArea != null : "fx:id=\"keyBitsArea\" was not injected: check your FXML file 'secondary.fxml'.";
-        assert fileBitsArea != null : "fx:id=\"fileBitsArea\" was not injected: check your FXML file 'secondary.fxml'.";
-        assert encryptedBitsArea != null : "fx:id=\"encryptedBitsArea\" was not injected: check your FXML file 'secondary.fxml'.";
+        keyBitsArea.setWrapText(true);
+        fileBitsArea.setWrapText(true);
+        encryptedBitsArea.setWrapText(true);
 
+        keyBitsArea.setText(PrimaryController.getCipher().showKeyBytes());
+        fileBitsArea.setText(PrimaryController.getCipher().showTextBytes());
+        encryptedBitsArea.setText(PrimaryController.getCipher().showEncryptedBytes());
     }
 }

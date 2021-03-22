@@ -1,12 +1,17 @@
 package by.bsuir;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -52,10 +57,9 @@ public class PrimaryController {
                 showAlert(false, "Wrong key");
                 return;
             }
-            cipher = new LFSR(createdKey, Util.fileOpening(file));
-            byte[] bytes = cipher.encrypt();
-            Util.writeEncryptedFile(bytes, file);
-            showAlert(true, "Encryption finished");
+            encryption(createdKey);
+
+            showResults();
         });
 
         decryptButton.setOnMouseClicked(e -> {
@@ -69,13 +73,34 @@ public class PrimaryController {
                 return;
             }
             showAlert(true, "Decryption started");
-            byte[] encrypted = Util.readEncryptedFile(file);
-            cipher = new LFSR(createKey(), encrypted);
-            byte[] bytes = cipher.decrypt();
-            Util.fileRebuilding(bytes, file);
-            showAlert(true, "Decryption finished");
-
+            decryption();
         });
+    }
+
+    private void decryption() {
+        byte[] encrypted = Util.readEncryptedFile(file);
+        cipher = new LFSR(createKey(), encrypted);
+        byte[] bytes = cipher.decrypt();
+        Util.fileRebuilding(bytes, file);
+    }
+
+    private void encryption(int createdKey) {
+        cipher = new LFSR(createdKey, Util.fileOpening(file));
+        byte[] bytes = cipher.encrypt();
+        Util.writeEncryptedFile(bytes, file);
+    }
+
+    private void showResults() {
+        try {
+            Scene scene = new Scene(loadFXML("secondary"));
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Results");
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     private void takeFile() {
@@ -119,5 +144,10 @@ public class PrimaryController {
             }
         }
         return result;
+    }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(PrimaryController.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
     }
 }

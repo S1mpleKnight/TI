@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsuir.SecondaryController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="615.0">
@@ -16,7 +15,7 @@
                   <Font name="Book Antiqua" size="25.0" />
                </font>
             </Label>
-            <TextArea fx:id="keyBitsArea" prefHeight="200.0" prefWidth="200.0" />
+            <TextArea fx:id="keyBitsArea" editable="false" prefColumnCount="95" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </VBox>
       <Separator prefWidth="200.0" />
@@ -27,7 +26,7 @@
                   <Font name="Book Antiqua" size="25.0" />
                </font>
             </Label>
-            <TextArea fx:id="fileBitsArea" prefHeight="200.0" prefWidth="200.0" />
+            <TextArea fx:id="fileBitsArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </VBox>
       <Separator prefWidth="200.0" />
@@ -38,7 +37,7 @@
                   <Font name="Book Antiqua" size="25.0" />
                </font>
             </Label>
-            <TextArea fx:id="encryptedBitsArea" prefHeight="200.0" prefWidth="200.0" />
+            <TextArea fx:id="encryptedBitsArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </VBox>
       <Separator prefWidth="200.0" />

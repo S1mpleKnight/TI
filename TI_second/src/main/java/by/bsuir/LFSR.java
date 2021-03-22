@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class LFSR implements Cipher {
-    public static final int BYTES_NUMBER = 10;
+    public static final int BYTES_NUMBER = 30;
     private static final long KEY_MASK = 0b00000000_00000000_00000000_00000001_11111110_00000000_00000000_00000000L;
     private final byte[] message;
     private final ArrayList<Byte> textBitsList;
@@ -85,7 +85,7 @@ public class LFSR implements Cipher {
     public String showKeyBytes() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < BYTES_NUMBER; i++) {
-            sb.append(Integer.toBinaryString(keyBitsList.get(i)));
+            sb.append(binaryForm(keyBitsList.get(i)));
             sb.append(" ");
         }
         return sb.toString();
@@ -98,17 +98,35 @@ public class LFSR implements Cipher {
 
     @Override
     public String showTextBytes() {
-        return textBitsList
-                .stream()
-                .map(Integer::toBinaryString)
-                .collect(Collectors.joining(" "));
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < BYTES_NUMBER; i++){
+            sb.append((binaryForm(textBitsList.get(i))));
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
+
+    private String binaryForm(byte bytek){
+        StringBuilder sb = new StringBuilder();
+        byte check = 1;
+        for (int i = 0; i < 8; i++){
+            if ((check & bytek) == 0){
+                sb.append("0");
+            } else {
+                sb.append("1");
+            }
+            check <<= 1;
+        }
+        return sb.reverse().toString();
     }
 
     @Override
     public String showEncryptedBytes() {
-        return encryptedBitsList
-                .stream()
-                .map(Integer::toBinaryString)
-                .collect(Collectors.joining(" "));
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < BYTES_NUMBER; i++){
+            sb.append(binaryForm(encryptedBitsList.get(i)));
+            sb.append(" ");
+        }
+        return sb.toString();
     }
 }
