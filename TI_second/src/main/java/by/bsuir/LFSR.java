@@ -54,7 +54,6 @@ public class LFSR implements Cipher {
             temp += bit;
         }
         key = (int) temp;
-        long wow = temp & KEY_MASK;
         return (byte) ((temp & KEY_MASK) >> 25);
     }
 
