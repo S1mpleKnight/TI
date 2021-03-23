@@ -79,6 +79,8 @@ public class PrimaryController {
             }
             showAlert(true, "Decryption started");
             decryption();
+
+            showResults();
         });
     }
 

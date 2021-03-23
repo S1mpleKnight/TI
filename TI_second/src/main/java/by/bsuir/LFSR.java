@@ -76,6 +76,10 @@ public class LFSR implements Cipher {
         byte[] decryptBytes = new byte[message.length];
         for (int i = 0; i < message.length; i++) {
             decryptBytes[i] = manipulateByte(message[i]);
+            if (i < BYTES_NUMBER) {
+                addTextByte(message[i]);
+                addEncryptedByte(decryptBytes[i]);
+            }
         }
         return decryptBytes;
     }

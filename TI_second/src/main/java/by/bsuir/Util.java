@@ -11,6 +11,7 @@ public class Util {
     public static void writeEncryptedFile(byte[] bytes, File file) {
         File encryptedFile = new File(file.getAbsolutePath() + ".encrypted");
         try {
+            file.createNewFile();
             DataOutputStream ds = new DataOutputStream(new FileOutputStream(encryptedFile));
             ds.write(bytes);
             ds.flush();
@@ -38,9 +39,7 @@ public class Util {
         try {
             file.createNewFile();
             DataOutputStream ds = new DataOutputStream(new FileOutputStream(decryptedFile));
-            for (Byte bytek : bytes) {
-                ds.writeByte(bytek);
-            }
+            ds.write(bytes);
             ds.flush();
             ds.close();
         } catch (IOException exception) {
