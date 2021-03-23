@@ -54,7 +54,8 @@ public class LFSR implements Cipher {
             temp += bit;
         }
         key = (int) temp;
-        return (byte) (0xFF & ((temp & KEY_MASK) >>> 26));
+        long wow = temp & KEY_MASK;
+        return (byte) ((temp & KEY_MASK) >> 25);
     }
 
     private int calculateLastBit(long temp) {
