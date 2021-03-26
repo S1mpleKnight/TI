@@ -87,7 +87,8 @@ public class LFSR implements Cipher {
     @Override
     public String showKeyBytes() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < BYTES_NUMBER; i++) {
+        int size = Math.min(BYTES_NUMBER, textBitsList.size());
+        for (int i = 0; i < size; i++) {
             sb.append(binaryForm(keyBitsList.get(i)));
             sb.append(" ");
         }
@@ -102,7 +103,8 @@ public class LFSR implements Cipher {
     @Override
     public String showTextBytes() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < BYTES_NUMBER; i++) {
+        int size = Math.min(BYTES_NUMBER, textBitsList.size());
+        for (int i = 0; i < size; i++) {
             sb.append((binaryForm(textBitsList.get(i))));
             sb.append(" ");
         }
@@ -126,7 +128,8 @@ public class LFSR implements Cipher {
     @Override
     public String showEncryptedBytes() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < BYTES_NUMBER; i++) {
+        int size = Math.min(BYTES_NUMBER, encryptedBitsList.size());
+        for (int i = 0; i < size; i++) {
             sb.append(binaryForm(encryptedBitsList.get(i)));
             sb.append(" ");
         }

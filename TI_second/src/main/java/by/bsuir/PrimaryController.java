@@ -135,6 +135,8 @@ public class PrimaryController {
                 .collect(Collectors.joining(""));
         if (key.length() == 0 || key.length() > 25) {
             return -1;
+        } else if (key.matches("[0]*")) {
+            return -1;
         } else {
             return calculateKey(key);
         }

@@ -23,7 +23,7 @@
                   <Font name="Book Antiqua" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="keyField" alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="250.0" promptText="Enter the starting value" />
+            <TextField fx:id="keyField" alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="250.0" promptText="Enter the starting value" text="1111111111111111111111111" />
          </children>
       </HBox>
       <Separator prefWidth="200.0" />
