@@ -10,12 +10,16 @@ import java.io.IOException;
 public class FileWorker {
     public static void writeEncryptedFile(byte[] bytes, File file) {
         File encryptedFile = new File(file.getAbsolutePath() + ".encrypted");
-        fileRebuilding(bytes, encryptedFile);
+        writeFile(bytes, file, encryptedFile);
     }
 
     public static void fileRebuilding(byte[] bytes, File file) {
         String name = file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 10);
         File decryptedFile = new File(name);
+        writeFile(bytes, file, decryptedFile);
+    }
+
+    private static void writeFile(byte[] bytes, File file, File decryptedFile) {
         boolean state = false;
         try {
             state = file.createNewFile();

@@ -6,7 +6,7 @@ import java.util.List;
 
 public final class SomeMath {
     private static final int AMOUNT_OF_CHECKS = 10;
-    private static final int AMOUNT_OF_BYTES_FOR_SYMBOL = 10;
+    public static final int AMOUNT_OF_BYTES_FOR_SYMBOL = 10;
 
     public static boolean isPrime(BigInteger number) {
         return number.isProbablePrime(AMOUNT_OF_CHECKS);
@@ -73,7 +73,7 @@ public final class SomeMath {
             System.arraycopy(bytes,
                     0, anotherBytes,
                     anotherBytes.length - bytes.length,
-                    bytes.length-1);
+                    bytes.length);
             updatedValues.add(new BigInteger(1, anotherBytes));
         }
         return updatedValues;
