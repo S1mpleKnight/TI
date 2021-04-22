@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Objects;
 
 public final class Starter extends Application {
@@ -15,6 +16,9 @@ public final class Starter extends Application {
     private static Stage firstStage;
 
     public static void main(String[] args) {
+        byte[] arr = new byte[]{3,2,1};
+        BigInteger number = new BigInteger(1, arr);
+        System.out.println(number);
         launch(args);
     }
 

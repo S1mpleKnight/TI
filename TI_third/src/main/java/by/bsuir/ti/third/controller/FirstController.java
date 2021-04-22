@@ -50,6 +50,10 @@ public final class FirstController {
 
     private boolean checkNumber(){
         BigInteger number = new BigInteger(pNumberField.getText());
+        if (number.compareTo(BigInteger.valueOf(256)) < 1){
+            Additions.showAlert(false, "Very low p-value");
+            return false;
+        }
         boolean result = SomeMath.isPrime(number);
         if (!result){
             Additions.showAlert(false, "This number is not prime");
@@ -61,7 +65,7 @@ public final class FirstController {
         return p;
     }
 
-    public Scene loadScene() {
+    private Scene loadScene() {
         Scene scene = null;
         try {
             scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(SECOND_SCENE))));
