@@ -7,8 +7,6 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Objects;
 
 public final class Starter extends Application {

@@ -70,7 +70,7 @@ public class ThirdController {
             Starter.getFirstStage().setScene(loadScene(SECOND_SCENE));
         });
 
-        nextButton.setOnAction(e->{
+        nextButton.setOnAction(e -> {
             Starter.getFirstStage().setScene(loadScene(RESULT_SCENE));
         });
 

@@ -1,11 +1,5 @@
 package by.bsuir.ti.third.controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
 import by.bsuir.ti.third.starter.Starter;
 import by.bsuir.ti.third.util.FileWorker;
 import javafx.fxml.FXML;
@@ -13,6 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class ResultController {
     private static final String THIRD_SCENE = "thirdScene.fxml";

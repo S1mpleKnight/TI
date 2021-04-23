@@ -6,7 +6,7 @@ import by.bsuir.ti.third.util.FileWorker;
 import java.math.BigInteger;
 import java.util.List;
 
-public final class OutputDecorator extends SimpleDecorator{
+public final class OutputDecorator extends SimpleDecorator {
     private static final String ENCRYPTED_INFO = "logs/encrypt.txt";
     private static final String DECRYPTED_INFO = "logs/decrypt.txt";
 

@@ -12,7 +12,6 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,11 +56,11 @@ public class FileWorker {
         return arr;
     }
 
-    public static void writeNumbers(List<BigInteger> numbers, String path){
+    public static void writeNumbers(List<BigInteger> numbers, String path) {
         File file = new File(path);
-        try (Writer writer = new FileWriter(file, StandardCharsets.UTF_8)){
+        try (Writer writer = new FileWriter(file, StandardCharsets.UTF_8)) {
             file.createNewFile();
-            for (int i = 0; i < numbers.size(); i++){
+            for (int i = 0; i < numbers.size(); i++) {
                 writer.write(numbers.get(i).toString());
                 writer.write(" ");
                 if (i != 0 && i % 10 == 0) {
@@ -75,9 +74,9 @@ public class FileWorker {
         }
     }
 
-    public static List<String> readNumbers(String path){
+    public static List<String> readNumbers(String path) {
         List<String> strings = Collections.EMPTY_LIST;
-        try (Stream<String> stream = Files.lines(Path.of(path))){
+        try (Stream<String> stream = Files.lines(Path.of(path))) {
             strings = stream.collect(Collectors.toList());
         } catch (IOException e) {
             System.out.println("Can not read numbers");

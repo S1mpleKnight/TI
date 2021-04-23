@@ -2,7 +2,6 @@ package by.bsuir.ti.third.controller;
 
 import by.bsuir.ti.third.starter.Starter;
 import by.bsuir.ti.third.util.Additions;
-import by.bsuir.ti.third.util.FileWorker;
 import by.bsuir.ti.third.util.SomeMath;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -66,7 +65,7 @@ public class SecondController {
         });
 
         nextButton.setOnAction(e -> {
-            if (inputValidation()){
+            if (inputValidation()) {
                 x = new BigInteger(xField.getText());
                 k = new BigInteger(kField.getText());
                 p = FirstController.getP();

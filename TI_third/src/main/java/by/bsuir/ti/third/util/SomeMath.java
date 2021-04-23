@@ -2,19 +2,18 @@ package by.bsuir.ti.third.util;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public final class SomeMath {
-    private static final int AMOUNT_OF_CHECKS = 10;
     public static final int AMOUNT_OF_BYTES_FOR_SYMBOL = 8;
+    private static final int AMOUNT_OF_CHECKS = 10;
 
     public static boolean isPrime(BigInteger number) {
         return number.isProbablePrime(AMOUNT_OF_CHECKS);
     }
 
     public static BigInteger calculateEulerFunction(BigInteger p) {
-        if (isPrime(p)){
+        if (isPrime(p)) {
             return p.subtract(BigInteger.ONE);
         }
         BigInteger result = p;
@@ -37,11 +36,11 @@ public final class SomeMath {
         for (int g = 1; BigInteger.valueOf(roots.size()).compareTo(amountOfRoots) < 0; g++) {
             BigInteger phi = p.subtract(BigInteger.ONE);
             if (BigInteger.valueOf(g).modPow(eulerResult, p).compareTo(BigInteger.ONE) != 0
-                || phi.gcd(BigInteger.valueOf(g)).compareTo(BigInteger.ONE) != 0){
+                    || phi.gcd(BigInteger.valueOf(g)).compareTo(BigInteger.ONE) != 0) {
                 continue;
             }
             boolean state = isPrimitiveRoot(p, eulerResult, g, phi);
-            if (state){
+            if (state) {
                 roots.add(BigInteger.valueOf(g));
             }
         }
@@ -53,10 +52,10 @@ public final class SomeMath {
         for (int i = 2; BigInteger.valueOf((long) i * i).compareTo(phi) < 1 && state; i++) {
             if (phi.mod(BigInteger.valueOf(i)).compareTo(BigInteger.ZERO) == 0) {
                 if (BigInteger.valueOf(g).modPow(eulerResult.divide(BigInteger.valueOf(i)), p)
-                        .compareTo(BigInteger.ONE) == 0){
+                        .compareTo(BigInteger.ONE) == 0) {
                     state = false;
                 } else {
-                    while (phi.mod(BigInteger.valueOf(i)).compareTo(BigInteger.ZERO) == 0){
+                    while (phi.mod(BigInteger.valueOf(i)).compareTo(BigInteger.ZERO) == 0) {
                         phi = phi.divide(BigInteger.valueOf(i));
                     }
                 }
@@ -65,14 +64,14 @@ public final class SomeMath {
         return state;
     }
 
-    public static List<Byte> fixSizeOfNumbers(List<BigInteger> numbers){
+    public static List<Byte> fixSizeOfNumbers(List<BigInteger> numbers) {
         List<Byte> updatedValues = new ArrayList<>();
         byte[] anotherBytes, bytes;
-        for (BigInteger number : numbers){
+        for (BigInteger number : numbers) {
             bytes = number.toByteArray();
             anotherBytes = new byte[AMOUNT_OF_BYTES_FOR_SYMBOL];
             System.arraycopy(bytes, 0, anotherBytes, anotherBytes.length - bytes.length, bytes.length);
-            for (byte bytik : anotherBytes){
+            for (byte bytik : anotherBytes) {
                 updatedValues.add(bytik);
             }
         }
@@ -97,8 +96,8 @@ public final class SomeMath {
         for (BigInteger number : numbers) {
             byte[] byteArray = number.toByteArray();
             for (int i = 0; i < byteArray.length; i++) {
-                if (i == 0 && byteArray.length >= 2){
-                    if (byteArray[i] == 0 && byteArray[i+1] < 0){
+                if (i == 0 && byteArray.length >= 2) {
+                    if (byteArray[i] == 0 && byteArray[i + 1] < 0) {
                         continue;
                     }
                 }
