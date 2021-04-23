@@ -10,8 +10,13 @@ import java.io.IOException;
 import java.io.Writer;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileWorker {
     public static void writeEncryptedFile(byte[] bytes, File file) {
@@ -53,11 +58,11 @@ public class FileWorker {
     }
 
     public static void writeNumbers(List<BigInteger> numbers, String path){
-        try (Writer writer = new FileWriter(path, StandardCharsets.UTF_8)){
+        File file = new File(path);
+        try (Writer writer = new FileWriter(file, StandardCharsets.UTF_8)){
+            file.createNewFile();
             for (int i = 0; i < numbers.size(); i++){
-                writer.write(Arrays.toString(numbers.get(i).toByteArray()));
-                writer.write(" ");
-                writer.write(Integer.toHexString(numbers.get(i).intValue()));
+                writer.write(numbers.get(i).toString());
                 writer.write(" ");
                 if (i != 0 && i % 10 == 0) {
                     writer.write("\n");
@@ -68,5 +73,16 @@ public class FileWorker {
             System.out.println("Can not write numbers");
             System.out.println(e.getMessage());
         }
+    }
+
+    public static List<String> readNumbers(String path){
+        List<String> strings = Collections.EMPTY_LIST;
+        try (Stream<String> stream = Files.lines(Path.of(path))){
+            strings = stream.collect(Collectors.toList());
+        } catch (IOException e) {
+            System.out.println("Can not read numbers");
+            e.printStackTrace();
+        }
+        return strings;
     }
 }

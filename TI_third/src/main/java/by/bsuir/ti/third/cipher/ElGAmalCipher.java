@@ -51,10 +51,6 @@ public final class ElGAmalCipher implements SimpleCipher {
             System.arraycopy(fileBytes, i, temp, 0, amount);
             i += amount;
             BigInteger b = new BigInteger(1, temp);
-            //m = a^(-x) * b mod p = ((a^(-x) % p) * (b % p)) % p
-            //todo: m must be positive
-            //System.out.println(Arrays.toString(a.toByteArray()));
-            //decryptedNumbers.add(a.modInverse(x).multiply(b.mod(p)).mod(p));
             decryptedNumbers.add(a.pow((int) x.longValue()).modInverse(p).multiply(b.mod(p)).mod(p));
         }
         return decryptedNumbers;

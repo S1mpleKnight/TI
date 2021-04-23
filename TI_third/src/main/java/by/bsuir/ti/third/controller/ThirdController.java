@@ -22,6 +22,8 @@ import java.util.Objects;
 
 public class ThirdController {
     private static final String SECOND_SCENE = "secondScene.fxml";
+    private static final String RESULT_SCENE = "resultScene.fxml";
+
     private static File file;
     @FXML
     private TextField filePathField;
@@ -33,10 +35,13 @@ public class ThirdController {
     private Button decryptButton;
     @FXML
     private Button previousButton;
+    @FXML
+    private Button nextButton;
 
     @FXML
     void initialize() {
         filePathField.setText(file == null ? "" : file.getAbsolutePath());
+        nextButton.setDisable(true);
 
         encryptButton.setOnAction(e -> {
             checkFile();
@@ -47,6 +52,7 @@ public class ThirdController {
             byte[] bytes = SomeMath.takeEncryptedBytes(encrypted);
             FileWorker.writeEncryptedFile(bytes, file);
             Additions.showAlert(true, "Encryption ended");
+            nextButton.setDisable(false);
         });
 
         decryptButton.setOnAction(e -> {
@@ -61,7 +67,11 @@ public class ThirdController {
         });
 
         previousButton.setOnAction(e -> {
-            Starter.getFirstStage().setScene(loadScene());
+            Starter.getFirstStage().setScene(loadScene(SECOND_SCENE));
+        });
+
+        nextButton.setOnAction(e->{
+            Starter.getFirstStage().setScene(loadScene(RESULT_SCENE));
         });
 
         chooseFileButton.setOnAction(e -> {
@@ -88,10 +98,10 @@ public class ThirdController {
         }
     }
 
-    private Scene loadScene() {
+    private Scene loadScene(String path) {
         Scene scene = null;
         try {
-            scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(SECOND_SCENE))));
+            scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path))));
         } catch (IOException e) {
             System.out.println(e.getLocalizedMessage());
             System.out.println(e.getMessage());
