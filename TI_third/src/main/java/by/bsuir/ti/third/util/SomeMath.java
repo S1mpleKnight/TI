@@ -2,11 +2,12 @@ package by.bsuir.ti.third.util;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class SomeMath {
     private static final int AMOUNT_OF_CHECKS = 10;
-    public static final int AMOUNT_OF_BYTES_FOR_SYMBOL = 10;
+    public static final int AMOUNT_OF_BYTES_FOR_SYMBOL = 2;
 
     public static boolean isPrime(BigInteger number) {
         return number.isProbablePrime(AMOUNT_OF_CHECKS);
@@ -64,18 +65,40 @@ public final class SomeMath {
         return state;
     }
 
-    public static List<BigInteger> fixSizeOfNumbers(List<BigInteger> numbers){
-        List<BigInteger> updatedValues = new ArrayList<>();
+    public static List<Byte> fixSizeOfNumbers(List<BigInteger> numbers){
+        List<Byte> updatedValues = new ArrayList<>();
         byte[] anotherBytes, bytes;
         for (BigInteger number : numbers){
             bytes = number.toByteArray();
             anotherBytes = new byte[AMOUNT_OF_BYTES_FOR_SYMBOL];
-            System.arraycopy(bytes,
-                    0, anotherBytes,
-                    anotherBytes.length - bytes.length,
-                    bytes.length);
-            updatedValues.add(new BigInteger(1, anotherBytes));
+            System.arraycopy(bytes, 0, anotherBytes, anotherBytes.length - bytes.length, bytes.length);
+            for (byte bytik : anotherBytes){
+                updatedValues.add(bytik);
+            }
         }
         return updatedValues;
+    }
+
+    public static byte[] takeEncryptedBytes(List<BigInteger> numbers) {
+        List<Byte> bytes = fixSizeOfNumbers(numbers);
+        return takeByteArray(bytes);
+    }
+
+    private static byte[] takeByteArray(List<Byte> numbers) {
+        byte[] bytes = new byte[numbers.size()];
+        for (int i = 0; i < numbers.size(); i++) {
+            bytes[i] = numbers.get(i);
+        }
+        return bytes;
+    }
+
+    public static byte[] takeDecryptedBytes(List<BigInteger> numbers) {
+        List<Byte> bytes = new ArrayList<>();
+        for (BigInteger number : numbers) {
+            for (byte bytik : number.toByteArray()) {
+                bytes.add(bytik);
+            }
+        }
+        return takeByteArray(bytes);
     }
 }

@@ -2,9 +2,11 @@ package by.bsuir.ti.third.controller;
 
 import by.bsuir.ti.third.cipher.ElGAmalCipher;
 import by.bsuir.ti.third.cipher.SimpleCipher;
+import by.bsuir.ti.third.decorator.OutputDecorator;
 import by.bsuir.ti.third.starter.Starter;
 import by.bsuir.ti.third.util.Additions;
 import by.bsuir.ti.third.util.FileWorker;
+import by.bsuir.ti.third.util.SomeMath;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +16,8 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.List;
 import java.util.Objects;
 
 public class ThirdController {
@@ -38,16 +42,20 @@ public class ThirdController {
             checkFile();
             SimpleCipher cipher = new ElGAmalCipher(FirstController.getP(), SecondController.getG(),
                     SecondController.getK(), SecondController.getX());
-            byte[] encrypted = cipher.encrypt(FileWorker.fileOpening(file));
-            FileWorker.writeEncryptedFile(encrypted, file);
+            cipher = new OutputDecorator(cipher);
+            List<BigInteger> encrypted = cipher.encrypt(FileWorker.fileOpening(file));
+            byte[] bytes = SomeMath.takeEncryptedBytes(encrypted);
+            FileWorker.writeEncryptedFile(bytes, file);
         });
 
         decryptButton.setOnAction(e -> {
             checkFile();
             SimpleCipher cipher = new ElGAmalCipher(FirstController.getP(), SecondController.getG(),
                     SecondController.getK(), SecondController.getX());
-            byte[] decrypted = cipher.decrypt(FileWorker.fileOpening(file));
-            FileWorker.fileRebuilding(decrypted, file);
+            cipher = new OutputDecorator(cipher);
+            List<BigInteger> decrypted = cipher.decrypt(FileWorker.fileOpening(file));
+            byte[] bytes = SomeMath.takeDecryptedBytes(decrypted);
+            FileWorker.fileRebuilding(bytes, file);
         });
 
         previousButton.setOnAction(e -> {
