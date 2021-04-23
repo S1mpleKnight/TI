@@ -36,6 +36,8 @@ public final class Starter extends Application {
         if (scene == null) {
             errorAlert();
         } else {
+            primaryStage.setTitle("Lab_3");
+            primaryStage.setResizable(false);
             primaryStage.setScene(scene);
             primaryStage.show();
         }

@@ -21,18 +21,6 @@ public class Util {
         }
     }
 
-    public static byte[] readEncryptedFile(File file) {
-        byte[] bytes = new byte[0];
-        try {
-            DataInputStream ds = new DataInputStream(new FileInputStream(file));
-            bytes = ds.readAllBytes();
-            ds.close();
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-        return bytes;
-    }
-
     public static void fileRebuilding(byte[] bytes, File file) {
         String name = file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 10);
         File decryptedFile = new File(name);
@@ -45,6 +33,18 @@ public class Util {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public static byte[] readEncryptedFile(File file) {
+        byte[] bytes = new byte[0];
+        try {
+            DataInputStream ds = new DataInputStream(new FileInputStream(file));
+            bytes = ds.readAllBytes();
+            ds.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        return bytes;
     }
 
     public static byte[] fileOpening(File file) {

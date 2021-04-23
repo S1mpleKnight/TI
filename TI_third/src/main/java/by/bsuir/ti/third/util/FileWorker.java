@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 public class FileWorker {
@@ -54,12 +55,15 @@ public class FileWorker {
     public static void writeNumbers(List<BigInteger> numbers, String path){
         try (Writer writer = new FileWriter(path, StandardCharsets.UTF_8)){
             for (int i = 0; i < numbers.size(); i++){
-                writer.write(numbers.get(i).toString());
+                writer.write(Arrays.toString(numbers.get(i).toByteArray()));
                 writer.write(" ");
-                if (i % 10 == 0) {
-                    System.out.println();
+                writer.write(Integer.toHexString(numbers.get(i).intValue()));
+                writer.write(" ");
+                if (i != 0 && i % 10 == 0) {
+                    writer.write("\n");
                 }
             }
+            writer.flush();
         } catch (IOException e) {
             System.out.println("Can not write numbers");
             System.out.println(e.getMessage());

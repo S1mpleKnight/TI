@@ -46,6 +46,7 @@ public class ThirdController {
             List<BigInteger> encrypted = cipher.encrypt(FileWorker.fileOpening(file));
             byte[] bytes = SomeMath.takeEncryptedBytes(encrypted);
             FileWorker.writeEncryptedFile(bytes, file);
+            Additions.showAlert(true, "Encryption ended");
         });
 
         decryptButton.setOnAction(e -> {
@@ -56,6 +57,7 @@ public class ThirdController {
             List<BigInteger> decrypted = cipher.decrypt(FileWorker.fileOpening(file));
             byte[] bytes = SomeMath.takeDecryptedBytes(decrypted);
             FileWorker.fileRebuilding(bytes, file);
+            Additions.showAlert(true, "Decryption ended");
         });
 
         previousButton.setOnAction(e -> {

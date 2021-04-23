@@ -7,7 +7,7 @@ import java.util.List;
 
 public final class SomeMath {
     private static final int AMOUNT_OF_CHECKS = 10;
-    public static final int AMOUNT_OF_BYTES_FOR_SYMBOL = 2;
+    public static final int AMOUNT_OF_BYTES_FOR_SYMBOL = 8;
 
     public static boolean isPrime(BigInteger number) {
         return number.isProbablePrime(AMOUNT_OF_CHECKS);
@@ -95,8 +95,14 @@ public final class SomeMath {
     public static byte[] takeDecryptedBytes(List<BigInteger> numbers) {
         List<Byte> bytes = new ArrayList<>();
         for (BigInteger number : numbers) {
-            for (byte bytik : number.toByteArray()) {
-                bytes.add(bytik);
+            byte[] byteArray = number.toByteArray();
+            for (int i = 0; i < byteArray.length; i++) {
+                if (i == 0 && byteArray.length >= 2){
+                    if (byteArray[i] == 0 && byteArray[i+1] < 0){
+                        continue;
+                    }
+                }
+                bytes.add(byteArray[i]);
             }
         }
         return takeByteArray(bytes);
