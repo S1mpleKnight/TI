@@ -44,26 +44,29 @@ public class ThirdController {
         nextButton.setDisable(true);
 
         encryptButton.setOnAction(e -> {
-            checkFile();
-            SimpleCipher cipher = new ElGAmalCipher(FirstController.getP(), SecondController.getG(),
-                    SecondController.getK(), SecondController.getX());
-            cipher = new OutputDecorator(cipher);
-            List<BigInteger> encrypted = cipher.encrypt(FileWorker.fileOpening(file));
-            byte[] bytes = SomeMath.takeEncryptedBytes(encrypted);
-            FileWorker.writeEncryptedFile(bytes, file);
-            Additions.showAlert(true, "Encryption ended");
-            nextButton.setDisable(false);
+            if (checkFile()) {
+                SimpleCipher cipher = new ElGAmalCipher(FirstController.getP(), SecondController.getG(),
+                        SecondController.getK(), SecondController.getX());
+                cipher = new OutputDecorator(cipher);
+                List<BigInteger> encrypted = cipher.encrypt(FileWorker.fileOpening(file));
+                byte[] bytes = SomeMath.takeEncryptedBytes(encrypted);
+                FileWorker.writeEncryptedFile(bytes, file);
+                Additions.showAlert(true, "Encryption ended");
+                nextButton.setDisable(false);
+            }
         });
 
         decryptButton.setOnAction(e -> {
-            checkFile();
-            SimpleCipher cipher = new ElGAmalCipher(FirstController.getP(), SecondController.getG(),
-                    SecondController.getK(), SecondController.getX());
-            cipher = new OutputDecorator(cipher);
-            List<BigInteger> decrypted = cipher.decrypt(FileWorker.fileOpening(file));
-            byte[] bytes = SomeMath.takeDecryptedBytes(decrypted);
-            FileWorker.fileRebuilding(bytes, file);
-            Additions.showAlert(true, "Decryption ended");
+            if (checkFile()) {
+                SimpleCipher cipher = new ElGAmalCipher(FirstController.getP(), SecondController.getG(),
+                        SecondController.getK(), SecondController.getX());
+                cipher = new OutputDecorator(cipher);
+                List<BigInteger> decrypted = cipher.decrypt(FileWorker.fileOpening(file));
+                byte[] bytes = SomeMath.takeDecryptedBytes(decrypted);
+                FileWorker.fileRebuilding(bytes, file);
+                Additions.showAlert(true, "Decryption ended");
+
+            }
         });
 
         previousButton.setOnAction(e -> {
@@ -82,9 +85,12 @@ public class ThirdController {
         });
     }
 
-    private void checkFile() {
+    private boolean checkFile() {
         if (file == null) {
             Additions.showAlert(false, "Choose file");
+            return false;
+        } else {
+            return true;
         }
     }
 
