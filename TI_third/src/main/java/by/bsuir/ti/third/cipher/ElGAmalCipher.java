@@ -20,8 +20,8 @@ public final class ElGAmalCipher implements SimpleCipher {
         this.g = g;
         this.k = k;
         this.x = x;
-        this.y = g.modPow(x, p);
-        this.a = g.modPow(k, p);
+        this.y = SomeMath.fastExpMod(g, x, p);
+        this.a = SomeMath.fastExpMod(g, k, p);
     }
 
     @Override
@@ -32,7 +32,7 @@ public final class ElGAmalCipher implements SimpleCipher {
             encryptedNumbers.add(a);
             //b = y^k * m mod p = ((y^k % p) * (m % p)) % p
             short tmp = (short) (fileByte & 0xFF);
-            encryptedNumbers.add(y.modPow(k, p).multiply(BigInteger.valueOf(tmp).mod(p)).mod(p));
+            encryptedNumbers.add(SomeMath.fastExpMod(y, k, p).multiply(BigInteger.valueOf(tmp).mod(p)).mod(p));
         }
         return encryptedNumbers;
     }
@@ -51,6 +51,7 @@ public final class ElGAmalCipher implements SimpleCipher {
             System.arraycopy(fileBytes, i, temp, 0, amount);
             i += amount;
             BigInteger b = new BigInteger(1, temp);
+            //m = a^(-x) * b mod p = ((a^(-x) % p) * (b % p)) % p
             decryptedNumbers.add(a.pow((int) x.longValue()).modInverse(p).multiply(b.mod(p)).mod(p));
         }
         return decryptedNumbers;

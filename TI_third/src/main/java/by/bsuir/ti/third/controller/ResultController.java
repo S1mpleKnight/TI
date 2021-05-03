@@ -14,6 +14,7 @@ import java.util.Objects;
 public class ResultController {
     private static final String THIRD_SCENE = "thirdScene.fxml";
     private static final String ENCRYPTED_NUMBERS = "logs/encrypt.txt";
+    private static final String DECRYPTED_NUMBERS = "logs/decrypt.txt";
     @FXML
     private TextArea resultArea;
     @FXML
@@ -21,7 +22,10 @@ public class ResultController {
 
     @FXML
     void initialize() {
-        resultArea.setText(String.join("\n", FileWorker.readNumbers(ENCRYPTED_NUMBERS)));
+        String result = ThirdController.getStatus().equals("encrypt")
+                ? ENCRYPTED_NUMBERS
+                : DECRYPTED_NUMBERS;
+        resultArea.setText(String.join("\n", FileWorker.readNumbers(result)));
 
 
         previousButton.setOnAction(e -> {

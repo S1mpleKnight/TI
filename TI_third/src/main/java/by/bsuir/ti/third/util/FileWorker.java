@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileWorker {
+    private static final int NUMBER_OF_RESULT_LINES = 20;
+
     public static void writeEncryptedFile(byte[] bytes, File file) {
         File encryptedFile = new File(file.getAbsolutePath() + ".encrypted");
         writeFile(bytes, encryptedFile);
@@ -60,7 +62,7 @@ public class FileWorker {
         File file = new File(path);
         try (Writer writer = new FileWriter(file, StandardCharsets.UTF_8)) {
             file.createNewFile();
-            for (int i = 0; i < numbers.size(); i++) {
+            for (int i = 0; i < numbers.size() && i / 10 < NUMBER_OF_RESULT_LINES; i++) {
                 writer.write(numbers.get(i).toString());
                 writer.write(" ");
                 if (i != 0 && i % 10 == 0) {

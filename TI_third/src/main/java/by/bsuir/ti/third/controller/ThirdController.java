@@ -23,6 +23,9 @@ import java.util.Objects;
 public class ThirdController {
     private static final String SECOND_SCENE = "secondScene.fxml";
     private static final String RESULT_SCENE = "resultScene.fxml";
+    private static final String DECRYPT_STATUS = "decrypt";
+    private static final String ENCRYPT_STATUS = "encrypt";
+    private static String status;
 
     private static File file;
     @FXML
@@ -52,6 +55,7 @@ public class ThirdController {
                 byte[] bytes = SomeMath.takeEncryptedBytes(encrypted);
                 FileWorker.writeEncryptedFile(bytes, file);
                 Additions.showAlert(true, "Encryption ended");
+                status = ENCRYPT_STATUS;
                 nextButton.setDisable(false);
             }
         });
@@ -65,7 +69,8 @@ public class ThirdController {
                 byte[] bytes = SomeMath.takeDecryptedBytes(decrypted);
                 FileWorker.fileRebuilding(bytes, file);
                 Additions.showAlert(true, "Decryption ended");
-
+                status = DECRYPT_STATUS;
+                nextButton.setDisable(false);
             }
         });
 
@@ -88,6 +93,9 @@ public class ThirdController {
     private boolean checkFile() {
         if (file == null) {
             Additions.showAlert(false, "Choose file");
+            return false;
+        } else if (!file.exists()){
+            Additions.showAlert(false, "File does not exist");
             return false;
         } else {
             return true;
@@ -113,5 +121,9 @@ public class ThirdController {
             System.out.println(e.getMessage());
         }
         return scene;
+    }
+
+    public static String getStatus() {
+        return status;
     }
 }
