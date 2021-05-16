@@ -6,20 +6,26 @@ import java.math.RoundingMode;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public final class SomeMath {
     public static final int AMOUNT_OF_BYTES_FOR_SYMBOL = 8;
     private static final int AMOUNT_OF_CHECKS = 10;
 
+    public static BigInteger greatCommonDivisor(BigInteger a, BigInteger b){
+        if (b.compareTo(BigInteger.ZERO) == 0){
+            return a;
+        } else {
+            return greatCommonDivisor(b, a.mod(b));
+        }
+    }
+
     //x = a^z mod n
-    public static BigInteger fastExpMod(BigInteger a, BigInteger z, BigInteger n){
+    public static BigInteger fastExpMod(BigInteger a, BigInteger z, BigInteger n) {
         BigInteger a1 = new BigInteger(a.toString());                               //a1 = a
         BigInteger z1 = new BigInteger(z.toString());                               //z1 = z
         BigInteger x = BigInteger.valueOf(1);                                       //x = 1
-        while (z1.compareTo(BigInteger.ZERO) != 0){                                 //while z1 != 0
-            while (z1.mod(BigInteger.valueOf(2)).compareTo(BigInteger.ZERO) == 0){  //while z1 mod 2 == 0
+        while (z1.compareTo(BigInteger.ZERO) != 0) {                                 //while z1 != 0
+            while (z1.mod(BigInteger.valueOf(2)).compareTo(BigInteger.ZERO) == 0) {  //while z1 mod 2 == 0
                 BigInteger last = z1.mod(BigInteger.valueOf(2));                    //z1 = z1 div 2
                 z1 = z1.subtract(last).divide(BigInteger.valueOf(2));               //a1 = a1 * a1 mod n
                 a1 = a1.pow(2).mod(n);
@@ -29,15 +35,15 @@ public final class SomeMath {
         }
         return x;
     }
-    
-    public static BigInteger fastInvExpMod(BigInteger a, BigInteger z, BigInteger n){
+
+    public static BigInteger fastInvExpMod(BigInteger a, BigInteger z, BigInteger n) {
         BigDecimal a1 = new BigDecimal(a.toString());
         a1 = BigDecimal.ONE.divide(a1, 10, RoundingMode.CEILING);
         BigDecimal z1 = new BigDecimal(z.toString());
         BigDecimal x = BigDecimal.valueOf(1);
         BigDecimal an = new BigDecimal(n.toString());
-        while (z1.compareTo(BigDecimal.ZERO) != 0){
-            while (z1.remainder(BigDecimal.valueOf(2)).compareTo(BigDecimal.ZERO) == 0){
+        while (z1.compareTo(BigDecimal.ZERO) != 0) {
+            while (z1.remainder(BigDecimal.valueOf(2)).compareTo(BigDecimal.ZERO) == 0) {
                 BigDecimal last = z1.remainder(BigDecimal.valueOf(2));
                 z1 = z1.subtract(last).divide(BigDecimal.valueOf(2), 10, RoundingMode.CEILING);
                 a1 = a1.pow(2).remainder(an);
@@ -72,7 +78,7 @@ public final class SomeMath {
         for (int g = 1; BigInteger.valueOf(roots.size()).compareTo(amountOfRoots) < 0; g++) {
             BigInteger phi = p.subtract(BigInteger.ONE);
             if (fastExpMod(BigInteger.valueOf(g), eulerResult, p).compareTo(BigInteger.ONE) != 0
-                    || phi.gcd(BigInteger.valueOf(g)).compareTo(BigInteger.ONE) != 0) {
+                    || SomeMath.greatCommonDivisor(p, BigInteger.valueOf(g)).compareTo(BigInteger.ONE) != 0) {
                 continue;
             }
             boolean state = isPrimitiveRoot(p, eulerResult, g, phi);
@@ -145,7 +151,6 @@ public final class SomeMath {
 
     public static boolean isPrime(BigInteger number) {
         return millerRabinTest(number);
-        //  return number.isProbablePrime(AMOUNT_OF_CHECKS);
     }
 
     private static boolean millerRabinTest(BigInteger n) {

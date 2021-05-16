@@ -52,7 +52,8 @@ public class SecondController {
     void initialize() {
         cacheValues();
 
-        roots = SomeMath.takePrimitiveRoots(FirstController.getP());
+           roots = SomeMath.takePrimitiveRoots(FirstController.getP());
+        System.out.println(roots.size());
         list = FXCollections.observableList(roots);
         gListComboBox.getItems().addAll(list);
 
