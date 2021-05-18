@@ -26,6 +26,10 @@ public final class RSA implements Cipher {
         this.phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
     }
 
+    public BigInteger getR() {
+        return r;
+    }
+
     public BigInteger getE() {
         if (e != null) {
             return e;

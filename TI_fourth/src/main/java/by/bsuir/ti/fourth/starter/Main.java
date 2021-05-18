@@ -17,6 +17,7 @@ import java.security.MessageDigest;
 import java.util.Objects;
 
 public class Main extends Application {
+    private static Stage stage;
 
     public static void main(String[] args) {
 //        String value = "Hello World!";
@@ -45,8 +46,13 @@ public class Main extends Application {
         launch(args);
     }
 
+    public static Stage getStage() {
+        return stage;
+    }
+
     @Override
     public void start(Stage primaryStage) {
+        stage = primaryStage;
         try {
             Node node = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("primary.fxml")));
             Group group = new Group();

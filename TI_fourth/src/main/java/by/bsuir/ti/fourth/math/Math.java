@@ -104,4 +104,12 @@ public class Math {
         }
         return new BigInteger[]{x1, y1, d1};
     }
+
+    public static BigInteger greatCommonDivisor(BigInteger a, BigInteger b){
+        if (b.compareTo(BigInteger.ZERO) == 0){
+            return a;
+        } else {
+            return greatCommonDivisor(b, a.mod(b));
+        }
+    }
 }
