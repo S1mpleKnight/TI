@@ -1,17 +1,18 @@
-package by.bsuir.ti.fourth.hash;
+package by.bsuir.ti.fourth.hash.impl;
 
+
+import by.bsuir.ti.fourth.hash.api.HashFunction;
+
+import java.math.BigInteger;
 import java.util.Arrays;
 
-public final class SHA1 {
+public final class SHA1 implements HashFunction {
     private static final int[] ABCDE = {
             0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0
     };
-    //  Summary data storage array
     private final int[] digestInt = new int[5];
-    //  The calculation process for temporary data storage array
     private final int[] tmpData = new int[80];
 
-    //  To convert a hexadecimal string bytes
     private static String byteToHexString(byte ib) {
         char[] digits = {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c',
@@ -23,7 +24,6 @@ public final class SHA1 {
         return new String(ob);
     }
 
-    //  Converts an array of bytes into a string of hexadecimal characters
     private static String byteArrayToHexString(byte[] bytearray) {
         StringBuilder strDigest = new StringBuilder();
         for (byte b : bytearray) {
@@ -32,36 +32,23 @@ public final class SHA1 {
         return strDigest.toString();
     }
 
-    //  Calculates sha-1 Summary
     private void processInputBytes(byte[] bytedata) {
-        //  Keen understanding of constant
         System.arraycopy(ABCDE, 0, digestInt, 0, ABCDE.length);
-        //  Formatted input byte array, Supplement 10 and length data
         byte[] newByte = byteArrayFormatData(bytedata);
-        //  Gets the data Digest calculation data cell number
         int countOfBlocks = newByte.length / 64;
-        //  Cycling on each data cell for Digest calculation
         for (int pos = 0; pos < countOfBlocks; pos++) {
-            //  Each unit of data is converted to a 16 integer data, and save it to the tmpData of the first 16 array element
             for (int j = 0; j < 16; j++) {
                 tmpData[j] = byteArrayToInt(newByte, (pos * 64) + (j * 4));
             }
-            //  Summary of the evaluation function
             takeHash();
         }
     }
 
-    //  Formatted input byte array format
     private byte[] byteArrayFormatData(byte[] bytedata) {
-        //  The number of supplementary 0
         int zeros = 0;
-        //  The total number of digits after the invigorating bit
         int size = 0;
-        //  The original data length
         int n = bytedata.length;
-        //  Die 64 bits of the remaining after
         int m = n % 64;
-        //  The calculation of the number of 0, and to add the length 10 total
         if (m < 56) {
             zeros = 55 - m;
             size = n - m + 64;
@@ -72,19 +59,13 @@ public final class SHA1 {
             zeros = 63 - m + 56;
             size = (n + 64) - m + 64;
         }
-        //  BU-generated after the contents of the new array
         byte[] newbyte = new byte[size];
-        //  Copy the front of the array
         System.arraycopy(bytedata, 0, newbyte, 0, n);
-        //  Get array Append data element
         int l = n;
-        //  Supplement 1 operation
         newbyte[l++] = (byte) 0x80;
-        //  Complement 0 operations
         for (int i = 0; i < zeros; i++) {
             newbyte[l++] = (byte) 0x00;
         }
-        //  Calculated data length, supplement data length bit 8 bytes, long integer
         long N = (long) n * 8;
         byte h8 = (byte) (N & 0xFF);
         byte h7 = (byte) ((N >> 8) & 0xFF);
@@ -121,7 +102,6 @@ public final class SHA1 {
         return (x << y) | x >>> (32 - y);
     }
 
-    //  Unit summary calculation function
     private void takeHash() {
         for (int i = 16; i <= 79; i++) {
             tmpData[i] = circleShift(tmpData[i - 3] ^ tmpData[i - 8] ^ tmpData[i - 14] ^ tmpData[i - 16], 1);
@@ -201,13 +181,11 @@ public final class SHA1 {
         }
     }
 
-    // 4 A byte array to convert to an integer
     private int byteArrayToInt(byte[] bytedata, int i) {
         return ((bytedata[i] & 0xff) << 24) | ((bytedata[i + 1] & 0xff) << 16)
                 | ((bytedata[i + 2] & 0xff) << 8) | (bytedata[i + 3] & 0xff);
     }
 
-    //  Integer is converted to a 4-byte array
     private void intToByteArray(int intValue, byte[] byteData, int i) {
         byteData[i] = (byte) (intValue >>> 24);
         byteData[i + 1] = (byte) (intValue >>> 16);
@@ -215,8 +193,7 @@ public final class SHA1 {
         byteData[i + 3] = (byte) intValue;
     }
 
-    //  Calculates sha-1 Summary returns the corresponding byte array
-    public byte[] getDigestOfBytes(byte[] byteData) {
+    public byte[] takeDigestInBytes(byte[] byteData) {
         processInputBytes(byteData);
         byte[] digest = new byte[20];
         for (int i = 0; i < digestInt.length; i++) {
@@ -225,8 +202,11 @@ public final class SHA1 {
         return digest;
     }
 
-    //  Calculates sha-1 Summary returns the corresponding hexadecimal string
-    public String getDigestOfString(byte[] byteData) {
-        return byteArrayToHexString(getDigestOfBytes(byteData));
+    public String takeDigestAsNumber(byte[] byteData){
+        return new BigInteger(byteData).toString();
+    }
+
+    public String takeDigestInHexString(byte[] byteData) {
+        return byteArrayToHexString(takeDigestInBytes(byteData));
     }
 }

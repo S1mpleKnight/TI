@@ -12,20 +12,20 @@ public final class RSA implements Cipher {
     private final BigInteger q;
     private final BigInteger r;
     private final BigInteger phi;
-    private final BigInteger e;
-    private BigInteger d;
+    private final BigInteger d;
+    private BigInteger e;
 
     public RSA(String pStringForm, String qStringForm, String eStringForm) {
-        this.e = new BigInteger(eStringForm);
+        this.d = new BigInteger(eStringForm);
         this.p = new BigInteger(pStringForm);
         this.q = new BigInteger(qStringForm);
         this.r = p.multiply(q);
         this.phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
     }
 
-    public BigInteger getD() {
-        if (d != null) {
-            return d;
+    public BigInteger getE() {
+        if (e != null) {
+            return e;
         } else {
             return extendedEuclideanAlgorithm()[1];
         }
@@ -41,7 +41,7 @@ public final class RSA implements Cipher {
     }
 
     private BigInteger encryptByte(byte dataByte) {
-        return fastExpMod(new BigInteger(String.valueOf(dataByte)), e);
+        return fastExpMod(new BigInteger(String.valueOf(dataByte)), d);
     }
 
     @Override
@@ -65,11 +65,10 @@ public final class RSA implements Cipher {
     }
 
     private BigInteger decryptBytes(BigInteger value) {
-        return fastExpMod(value, getD());
+        return fastExpMod(value, getE());
     }
 
-    //x = a^z mod n
-    public BigInteger fastExpMod(BigInteger a, BigInteger z) {
+    private BigInteger fastExpMod(BigInteger a, BigInteger z) {
         BigInteger a1 = new BigInteger(a.toString());                               //a1 = a
         BigInteger z1 = new BigInteger(z.toString());                               //z1 = z
         BigInteger x = BigInteger.valueOf(1);                                       //x = 1
@@ -87,7 +86,7 @@ public final class RSA implements Cipher {
 
     private BigInteger[] extendedEuclideanAlgorithm() {
         BigInteger d0 = new BigInteger(phi.toString());
-        BigInteger d1 = new BigInteger(e.toString());
+        BigInteger d1 = new BigInteger(d.toString());
         BigInteger x0 = BigInteger.ONE;
         BigInteger x1 = BigInteger.ZERO;
         BigInteger y0 = BigInteger.ZERO;
