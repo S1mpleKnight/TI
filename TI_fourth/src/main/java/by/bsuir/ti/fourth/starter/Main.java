@@ -1,5 +1,7 @@
 package by.bsuir.ti.fourth.starter;
 
+import by.bsuir.ti.fourth.encryption.api.Cipher;
+import by.bsuir.ti.fourth.encryption.impl.RSA;
 import by.bsuir.ti.fourth.hash.impl.SHA1;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +38,10 @@ public class Main extends Application {
 //        System.out.println(data);
 //        String digest = new SHA1().takeDigestInHexString(data.getBytes());
 //        System.out.println(digest);
+//
+//        Cipher cipher = new RSA("383", "389", "367");
+//        byte[] encrypted = cipher.encrypt(data.getBytes());
+//        System.out.println(new String(cipher.decrypt(encrypted)));
         launch(args);
     }
 
