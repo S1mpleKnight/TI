@@ -1,7 +1,9 @@
 package by.bsuir.ti.fourth.util;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,11 +20,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileWorker {
-    public static void signTheFile(File file, BigInteger digest, byte[] digitalSignature) throws IOException {
+    public static void signTheFile(File file, byte[] digitalSignature) throws IOException {
         try (Writer writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8, true))) {
-            writer.write("\n");
-            writer.write(digest.toString());
-            writer.write(" ");
             writer.write(new String(digitalSignature));
             writer.flush();
         } catch (IOException e) {
@@ -30,18 +29,21 @@ public class FileWorker {
         }
     }
 
-    public static String[] takeDigestAndSignature(File file) throws IOException {
-        List<String> strings;
-        try (Stream<String> stringStream = Files.lines(file.toPath())) {
-            strings = stringStream.collect(Collectors.toList());
-            return strings.get(strings.size() - 1).split(" ");
+    public static void signFile(File file, byte[] digitalSignature) throws IOException {
+        try {
+            DataOutputStream dos = new DataOutputStream(new FileOutputStream(file, true));
+            dos.write(digitalSignature);
+            dos.flush();
+            dos.close();
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
         } catch (IOException e) {
-            throw new IOException("Can not read file: " + file.getAbsolutePath());
+            throw new IOException("Can not sign th file: " + file.getAbsolutePath());
         }
     }
 
     public static byte[] readFile(File file) throws IOException {
-        byte[] arr = new byte[0];
+        byte[] arr;
         try {
             DataInputStream ds = new DataInputStream(new FileInputStream(file));
             arr = ds.readAllBytes();

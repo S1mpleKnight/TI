@@ -15,8 +15,10 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 public class PrimaryController {
+    private final static int AMOUNT_OF_BYTES_BY_DATA = 4;
     private static File file;
 
     @FXML
@@ -48,7 +50,7 @@ public class PrimaryController {
     @FXML
     private TextField hashAuthValueField;
     @FXML
-    private TextField signatureAuthValueField;
+    private TextField decryptedSignatureAuthValueField;
     @FXML
     private TextField mAuthValueField;
     @FXML
@@ -71,17 +73,96 @@ public class PrimaryController {
                 return;
             }
             byte[] hashedData = calculateDigest();
+            System.out.println("First hash: " + Arrays.toString(hashedData));
             if (hashedData == null) {
                 return;
             }
             byte[] digitalSignature = calculateDigitalSignature(hashedData);
+            System.out.println("First signature: " + Arrays.toString(digitalSignature));
             try {
-                FileWorker.signTheFile(file, new BigInteger(hashSignatureValueField.getText()), digitalSignature);
+                FileWorker.signTheFile(file, digitalSignature);
             } catch (IOException ioException) {
                 resetSignResultFields();
                 showAlert("Can not sign the file", false);
             }
+            showAlert("Signature done", true);
         });
+
+        checkButton.setOnAction(e -> {
+            if (!checkAuthArgs()){
+                return;
+            }
+            try {
+                byte[] fileBytes = FileWorker.readFile(file);
+                byte[] textBytes = new byte[fileBytes.length - 20 * AMOUNT_OF_BYTES_BY_DATA];
+                System.arraycopy(fileBytes, 0, textBytes, 0, fileBytes.length - 20 * AMOUNT_OF_BYTES_BY_DATA);
+                byte[] encryptedHash = takeEncryptedHash(fileBytes);
+                takeHashFromMessage(textBytes);
+                decryptOldHash(encryptedHash);
+                showResult();
+            } catch (IOException ioException) {
+                showAlert("Can not check file: " + file.getAbsolutePath(), false);
+            }
+        });
+    }
+
+    private void decryptOldHash(byte[] encryptedHash) {
+        RSA cipher = new RSA(eAuthValueField.getText(), rAuthValueField.getText());
+        byte[] decryptedBytes = cipher.decrypt(encryptedHash);
+        System.out.println("Decrypted hash: " + Arrays.toString(decryptedBytes));
+        decryptedSignatureAuthValueField.setText(new BigInteger(decryptedBytes).toString());
+    }
+
+    private void takeHashFromMessage(byte[] textBytes) {
+        HashFunction function = new SHA1();
+        byte[] hashedBytes = function.takeDigestInBytes(textBytes);
+        System.out.println("Calculated hash: " + Arrays.toString(hashedBytes));
+        hashAuthValueField.setText(new BigInteger(hashedBytes).toString());
+    }
+
+    private byte[] takeEncryptedHash(byte[] fileBytes) {
+        byte[] encryptedHash = new byte[20 * AMOUNT_OF_BYTES_BY_DATA];
+        System.arraycopy(fileBytes, fileBytes.length - 20 * AMOUNT_OF_BYTES_BY_DATA, encryptedHash, 0, 20 * AMOUNT_OF_BYTES_BY_DATA);
+        System.out.println("Read s: " + Arrays.toString(encryptedHash));
+        sAuthValueField.setText(new BigInteger(encryptedHash).toString());
+        return encryptedHash;
+    }
+
+    private void showResult() {
+        if (decryptedSignatureAuthValueField.equals(hashAuthValueField)){
+            showAlert("Message accepted", true);
+        } else {
+            showAlert("Message denied", false);
+        }
+    }
+
+
+    private boolean checkAuthArgs(){
+        return checkEValue() && checkRValue();
+    }
+
+    private boolean checkRValue(){
+        if (eAuthValueField.getText() == null){
+            showAlert("Fill r field", false);
+            return false;
+        }
+        if (!eAuthValueField.getText().matches("[0-9]+")){
+            showAlert("Incorrect r", false);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkEValue(){
+        if (eAuthValueField.getText() == null){
+            showAlert("Fill e field", false);
+            return false;
+        }
+        if (!eAuthValueField.getText().matches("[0-9]+")){
+            showAlert("Incorrect e", false);
+            return false;
+        }
+        return true;
     }
 
     private void resetSignResultFields(){

@@ -4,6 +4,7 @@ import by.bsuir.ti.fourth.encryption.api.Cipher;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static by.bsuir.ti.fourth.math.Math.extendedEuclideanAlgorithm;
@@ -11,11 +12,11 @@ import static by.bsuir.ti.fourth.math.Math.fastExpMod;
 
 public final class RSA implements Cipher {
     private final static int AMOUNT_OF_BYTES_BY_DATA = 4;
-    private final BigInteger p;
-    private final BigInteger q;
     private final BigInteger r;
-    private final BigInteger phi;
-    private final BigInteger d;
+    private BigInteger p;
+    private BigInteger q;
+    private BigInteger phi;
+    private BigInteger d;
     private BigInteger e;
 
     public RSA(String pStringForm, String qStringForm, String eStringForm) {
@@ -24,6 +25,11 @@ public final class RSA implements Cipher {
         this.q = new BigInteger(qStringForm);
         this.r = p.multiply(q);
         this.phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
+    }
+
+    public RSA(String eStringForm, String rStringForm) {
+        this.e = new BigInteger(eStringForm);
+        this.r = new BigInteger(rStringForm);
     }
 
     public BigInteger getR() {
@@ -42,13 +48,18 @@ public final class RSA implements Cipher {
     public byte[] encrypt(byte[] data) {
         List<BigInteger> encrypted = new ArrayList<>();
         for (byte datum : data) {
-            encrypted.add(encryptByte(datum));
+            if (datum < 0) {
+                short dto = (short) (datum & 0xFF);
+                encrypted.add(encryptByte(new BigInteger(String.valueOf(dto))));
+            } else {
+                encrypted.add(encryptByte(new BigInteger(String.valueOf(datum))));
+            }
         }
         return convertToBytes(encrypted);
     }
 
-    private BigInteger encryptByte(byte dataByte) {
-        return fastExpMod(new BigInteger(String.valueOf(dataByte)), d, r);
+    private BigInteger encryptByte(BigInteger dataByte) {
+        return fastExpMod(dataByte, d, r);
     }
 
     @Override
@@ -66,7 +77,7 @@ public final class RSA implements Cipher {
         byte[] result = new byte[numbers.size()];
         int i = 0;
         for (BigInteger number : numbers) {
-            result[i++] = number.toByteArray()[0];
+            result[i++] = number.byteValue();
         }
         return result;
     }
