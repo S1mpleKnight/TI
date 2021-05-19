@@ -72,15 +72,22 @@ public class PrimaryController {
             if (!checkSignArgs()) {
                 return;
             }
-            byte[] hashedData = calculateDigest();
-            System.out.println("First hash: " + Arrays.toString(hashedData));
-            if (hashedData == null) {
+            HashFunction function = new SHA1();
+            byte[] hashedData, text;
+            try {
+                text = FileWorker.readFile(file);
+                hashedData = function.takeDigestInBytes(text);
+                hashSignatureValueField.setText(function.takeDigestAsNumber(hashedData));
+            } catch (IOException ioException) {
+                showAlert(ioException.getMessage(), false);
                 return;
             }
+
+            System.out.println("First hash: " + Arrays.toString(hashedData));
             byte[] digitalSignature = calculateDigitalSignature(hashedData);
             System.out.println("First signature: " + Arrays.toString(digitalSignature));
             try {
-                FileWorker.signTheFile(file, digitalSignature);
+                FileWorker.signFile(file, digitalSignature, text);
             } catch (IOException ioException) {
                 resetSignResultFields();
                 showAlert("Can not sign the file", false);
@@ -129,7 +136,7 @@ public class PrimaryController {
     }
 
     private void showResult() {
-        if (decryptedSignatureAuthValueField.equals(hashAuthValueField)){
+        if (decryptedSignatureAuthValueField.getText().equals(hashAuthValueField.getText())){
             showAlert("Message accepted", true);
         } else {
             showAlert("Message denied", false);
@@ -191,19 +198,6 @@ public class PrimaryController {
         byte[] encryptedDigest = cipher.encrypt(hashedData);
         signatureValueField.setText(new BigInteger(encryptedDigest).toString());
         return encryptedDigest;
-    }
-
-    private byte[] calculateDigest() {
-        HashFunction function = new SHA1();
-        byte[] hashedData;
-        try {
-            hashedData = function.takeDigestInBytes(FileWorker.readFile(file));
-            hashSignatureValueField.setText(function.takeDigestAsNumber(hashedData));
-        } catch (IOException ioException) {
-            showAlert(ioException.getMessage(), false);
-            return null;
-        }
-        return hashedData;
     }
 
     private void showAlert(String message, boolean isInfo) {

@@ -1,6 +1,5 @@
 package by.bsuir.ti.fourth.util;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -10,18 +9,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Writer;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class FileWorker {
     public static void signTheFile(File file, byte[] digitalSignature) throws IOException {
-        try (Writer writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8, true))) {
+        try (Writer writer = new BufferedWriter(new FileWriter(file, UTF_8, true))) {
             writer.write(new String(digitalSignature));
             writer.flush();
         } catch (IOException e) {
@@ -29,9 +23,10 @@ public class FileWorker {
         }
     }
 
-    public static void signFile(File file, byte[] digitalSignature) throws IOException {
+    public static void signFile(File file, byte[] digitalSignature, byte[] text) throws IOException {
         try {
-            DataOutputStream dos = new DataOutputStream(new FileOutputStream(file, true));
+            DataOutputStream dos = new DataOutputStream(new FileOutputStream(file));
+            dos.write(text);
             dos.write(digitalSignature);
             dos.flush();
             dos.close();
