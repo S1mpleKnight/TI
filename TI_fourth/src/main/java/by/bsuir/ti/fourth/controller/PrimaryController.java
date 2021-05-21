@@ -96,7 +96,7 @@ public class PrimaryController {
         });
 
         checkButton.setOnAction(e -> {
-            if (!checkAuthArgs()){
+            if (!checkAuthArgs()) {
                 return;
             }
             try {
@@ -136,7 +136,7 @@ public class PrimaryController {
     }
 
     private void showResult() {
-        if (decryptedSignatureAuthValueField.getText().equals(hashAuthValueField.getText())){
+        if (new BigInteger(decryptedSignatureAuthValueField.getText()).compareTo(new BigInteger(hashAuthValueField.getText())) == 0) {
             showAlert("Message accepted", true);
         } else {
             showAlert("Message denied", false);
@@ -144,35 +144,35 @@ public class PrimaryController {
     }
 
 
-    private boolean checkAuthArgs(){
+    private boolean checkAuthArgs() {
         return checkEValue() && checkRValue();
     }
 
-    private boolean checkRValue(){
-        if (eAuthValueField.getText() == null){
+    private boolean checkRValue() {
+        if (eAuthValueField.getText() == null) {
             showAlert("Fill r field", false);
             return false;
         }
-        if (!eAuthValueField.getText().matches("[0-9]+")){
+        if (!eAuthValueField.getText().matches("[0-9]+")) {
             showAlert("Incorrect r", false);
             return false;
         }
         return true;
     }
 
-    private boolean checkEValue(){
-        if (eAuthValueField.getText() == null){
+    private boolean checkEValue() {
+        if (eAuthValueField.getText() == null) {
             showAlert("Fill e field", false);
             return false;
         }
-        if (!eAuthValueField.getText().matches("[0-9]+")){
+        if (!eAuthValueField.getText().matches("[0-9]+")) {
             showAlert("Incorrect e", false);
             return false;
         }
         return true;
     }
 
-    private void resetSignResultFields(){
+    private void resetSignResultFields() {
         hashSignatureValueField.setText("");
         signatureValueField.setText("");
         eSignatureValueField.setText("");
@@ -220,7 +220,7 @@ public class PrimaryController {
             return false;
         }
         BigInteger r = new BigInteger(pValueField.getText()).multiply(new BigInteger(qValueField.getText()));
-        if (r.compareTo(BigInteger.valueOf(255)) <= 0){
+        if (r.compareTo(BigInteger.valueOf(255)) <= 0) {
             showAlert("P & Q are too low", false);
             return false;
         }

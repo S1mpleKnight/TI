@@ -14,15 +14,6 @@ import java.io.Writer;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class FileWorker {
-    public static void signTheFile(File file, byte[] digitalSignature) throws IOException {
-        try (Writer writer = new BufferedWriter(new FileWriter(file, UTF_8, true))) {
-            writer.write(new String(digitalSignature));
-            writer.flush();
-        } catch (IOException e) {
-            throw new IOException("Can not sign the file");
-        }
-    }
-
     public static void signFile(File file, byte[] digitalSignature, byte[] text) throws IOException {
         try {
             DataOutputStream dos = new DataOutputStream(new FileOutputStream(file));
